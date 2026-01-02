@@ -1,5 +1,3 @@
-#include "stdio.h"
-#include "stdlib.h"
 #include "list.h"
 void Add(struct List* list, struct Item* newElement) {
 	if (list != NULL && newElement != NULL) {
