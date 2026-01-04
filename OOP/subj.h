@@ -1,118 +1,102 @@
-//#pragma once
-//#include "list.h"
-//#include "string.h"
-//
-//enum CarsType {
-//    Legk,
-//    Microbus,
-//    Bus,
-//    Gruz,
-//    Spec
-//};
-//
-//// Ѕазова€ структура - общие пол€ дл€ всех
-//struct Car {
-//    struct Item* prev;
-//    struct Item* next;
-//    char GosNumber[10];
-//    char Owner[20];
-//    char Brand[20];
-//    char Model[20];
-//    char Color[10];
-//    int Capacity;
-//    enum CarsType carsType;
-//};
-//
-//// ¬се остальные структуры должны начинатьс€ с этих полей в том же пор€дке!
-//struct Legk {
-//    struct Item* prev;
-//    struct Item* next;
-//    char GosNumber[10];
-//    char Owner[20];
-//    char Brand[20];
-//    char Model[20];
-//    char Color[10];
-//    int Capacity;
-//    enum CarsType carsType;
-//    char KuzovType[20];
-//    char MotorType[20];
-//    char DriveType[20];
-//};
-//
-//struct Microbus {
-//    struct Item* prev;
-//    struct Item* next;
-//    char GosNumber[10];
-//    char Owner[20];
-//    char Brand[20];
-//    char Model[20];
-//    char Color[10];
-//    int Capacity;
-//    enum CarsType carsType;
-//    char MotorType[20];
-//};
-//
-//struct Bus {
-//    struct Item* prev;
-//    struct Item* next;
-//    char GosNumber[10];
-//    char Owner[20];
-//    char Brand[20];
-//    char Model[20];
-//    char Color[10];
-//    int Capacity;
-//    enum CarsType carsType;
-//    char MotorType[20];
-//    float LoadCapacity;
-//};
-//
-//struct Gruz {
-//    struct Item* prev;
-//    struct Item* next;
-//    char GosNumber[10];
-//    char Owner[20];
-//    char Brand[20];
-//    char Model[20];
-//    char Color[10];
-//    int Capacity;
-//    enum CarsType carsType;
-//    char MotorType[20];
-//    float LoadCapacity;
-//};
-//
-//struct Spec {
-//    struct Item* prev;
-//    struct Item* next;
-//    char GosNumber[10];
-//    char Owner[20];
-//    char Brand[20];
-//    char Model[20];
-//    char Color[10];
-//    int Capacity;
-//    enum CarsType carsType;
-//    char Description[50];
-//};
-//
-//void PrintLegk(struct Legk*);
-//void PrintMicrobus(struct Microbus*);
-//void PrintBus(struct Bus*);
-//void PrintGruz(struct Gruz*);
-//void PrintSpec(struct Spec*);
-//void PrintCar(struct Car*);
-//
-//void InputLegk(struct Legk*);
-//void InputMicrobus(struct Microbus*);
-//void InputBus(struct Bus*);
-//void InputGruz(struct Gruz*);
-//void InputSpec(struct Spec*);
-//void InputCar(struct Car*);
-//
-//struct Car* FindByNumber(struct List*, char*);
-//struct List* FindByOwner(struct List*, char*);
-//struct List* FindByColor(struct List*, char*);
-//
-//struct Car* Create(enum CarsType);
-//void SortByCapacity(struct List*, int);
-//void PrintListCars(struct List*);
-//
-//
+#pragma once
+#include "list.h"
+#include <string>
+
+enum CarsType {
+    LEGK,
+    MICROBUS,
+    BUS,
+    GRUZ,
+    SPEC
+};
+
+// Ѕазовый класс дл€ всех автомобилей
+class Base : public Item {
+protected:
+    CarsType type;
+    std::string GosNumber;
+    std::string Owner;
+    std::string Brand;
+    std::string Model;
+    std::string Color;
+    int Capacity;
+
+public:
+    Base(CarsType t);
+    ~Base() {};
+
+    void Print();
+    void Input();
+
+    int GetCapacity() const { return Capacity; }
+    std::string GetOwner() const { return Owner; }
+    std::string GetColor() const { return Color; }
+    std::string GetNumber() const { return GosNumber; }
+
+    CarsType GetType() const { return type; }
+};
+
+
+class Legk : public Base {
+private:
+    std::string KuzovType;
+    std::string MotorType;
+    std::string DriveType;
+
+public:
+    Legk();
+    void Print();
+    void Input();
+};
+
+class Microbus : public Base {
+private:
+    std::string MotorType;
+
+public:
+    Microbus();
+    void Print();
+    void Input();
+};
+
+class Bus : public Base {
+private:
+    std::string MotorType;
+    float LoadCapacity;
+
+public:
+    Bus();
+    void Print();
+    void Input();
+};
+
+class Gruz : public Base {
+private:
+    std::string MotorType;
+    float LoadCapacity;
+
+public:
+    Gruz();
+    void Print();
+    void Input();
+};
+
+class Spec : public Base {
+private:
+    std::string Description;
+
+public:
+    Spec();
+    void Print();
+    void Input();
+};
+
+class SubjList : public List {
+public:
+    void Print();
+    void AddCar(CarsType type);
+    Base* FindByNumber(const std::string number);
+    SubjList* FindByOwner(const std::string owner);
+    SubjList* FindByColor(const std::string color);
+    void SortByCapacity(int reverse = 0);
+};
