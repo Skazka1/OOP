@@ -32,10 +32,10 @@ public:
 
 	void Add(Item*);
 	void Delete(const int);
-	Item* GetItem(const int);
+	Item* GetItem(const int) const;
 	Item* Remove(const int);
 	void Insert(Item*, const int);
-	int Count();
+	int Count() const;
 	void Clear();
 	int GetIndex(const Item*);
 	void PrintList();

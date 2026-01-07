@@ -13,6 +13,27 @@ Base::Base(CarsType t){
     Model = '\0';
     Color = '\0';
 }
+bool Base::operator>(const Base& other) const {
+    return this->Capacity > other.Capacity;
+}
+bool Base::operator==(const std::string& value) const {
+    return this->Owner == value;
+}
+Base& SubjList::operator[](int index) {
+    Item* item = GetItem(index); 
+    if (item == nullptr) {
+        throw std::out_of_range("Index out of range");
+    }
+    return *(Base*)item;
+}
+
+const Base& SubjList::operator[](int index) const {
+    Item* item = GetItem(index);
+    if (item == nullptr) {
+        throw std::out_of_range("Index out of range"); 
+    }
+    return *(Base*)item;
+}
 Base* Base::clone() {
     return nullptr;
 }
@@ -314,16 +335,17 @@ Base* SubjList::FindByNumber(const std::string number) {
 SubjList* SubjList::FindByOwner(const std::string owner) {
     SubjList* result = new SubjList();
 
-    for (Base* p = (Base*)GetHead(); p != nullptr; p = (Base*)p->GetNext()) {
-        if (p->GetOwner() == owner) {
-            Base* newObj = p->clone();
+    int n = Count();
+    for (int i = 0; i < n; i++) {
+        if ((*this)[i] == owner) {
+            Base* newObj = (*this)[i].clone();
             if (newObj) {
                 result->Add((Item*)newObj);
             }
         }
-
-        return result;
     }
+
+    return result;
 }
 
 SubjList* SubjList::FindByColor(const std::string color) {
@@ -341,26 +363,14 @@ SubjList* SubjList::FindByColor(const std::string color) {
     }
 }
 
-void SubjList::SortByCapacity(int reverse) {
-    int len = Count();
-
-    for (int i = 0; i < len; i++) {
-        for (int j = 0; j < len - 1; j++) {
-            Base* p1 = (Base*)GetItem(j);
-            Base* p2 = (Base*)GetItem(j + 1);
-
-            bool shouldSwap = false;
-            if (reverse) {
-                shouldSwap = p1->GetCapacity() < p2->GetCapacity();
-            }
-            else {
-                shouldSwap = p1->GetCapacity() > p2->GetCapacity();
-            }
-
-            if (shouldSwap) {
-                // Обмен местами
+void SubjList::SortByCapacityUsingOperator() {
+    int n = Count();
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            // Используем перегруженный оператор >
+            if ((*this)[i] > (*this)[j]) {
                 Item* temp = Remove(j);
-                Insert(temp, j + 1);
+                Insert(temp, i);
             }
         }
     }

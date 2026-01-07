@@ -114,21 +114,7 @@ int main() {
         }
 
         case 6: {
-            int reverse;
-            std::cout << "Выберите порядок сортировки:" << std::endl;
-            std::cout << "0 - по возрастанию (от меньшего к большему)" << std::endl;
-            std::cout << "1 - по убыванию (от большего к меньшему)" << std::endl;
-            std::cout << "Введите 0 или 1: ";
-
-            std::cin >> reverse;
-            if (std::cin.fail() || (reverse != 0 && reverse != 1)) {
-                std::cout << "Неверный выбор!" << std::endl;
-                std::cin.clear();
-                std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-                break;
-            }
-
-            list.SortByCapacity(reverse);
+            list.SortByCapacityUsingOperator();
             std::cout << "Сортировка выполнена успешно!" << std::endl;
             break;
         }

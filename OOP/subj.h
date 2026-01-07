@@ -21,6 +21,8 @@ protected:
     int Capacity;
 
 public:
+    virtual bool operator>(const Base& other) const; 
+    virtual bool operator==(const std::string& value) const;
     Base(CarsType t);
     ~Base() {};
     virtual Base* clone();
@@ -33,6 +35,7 @@ public:
     std::string GetNumber() const { return GosNumber; }
 
     virtual CarsType GetType() const = 0;
+
 };
 
 
@@ -107,5 +110,7 @@ public:
     Base* FindByNumber(const std::string number);
     SubjList* FindByOwner(const std::string owner);
     SubjList* FindByColor(const std::string color);
-    void SortByCapacity(int reverse = 0);
+    void SortByCapacityUsingOperator();
+    Base& operator[](int index);
+    const Base& operator[](int index) const;
 };

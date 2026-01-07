@@ -67,7 +67,7 @@ void List::Delete(const int number) {
 	}
 }
 
-Item* List::GetItem(const int number) {
+Item* List::GetItem(const int number) const {
 	Item* currItem;
 	int count = 0;
 	if (number >= 0) {
@@ -78,6 +78,7 @@ Item* List::GetItem(const int number) {
 		}
 		return currItem;
 	}
+	return nullptr;
 }
 
 Item* List::Remove(const int number) {
@@ -137,7 +138,7 @@ void List::Clear() {
 	}
 }
 
-int List::Count() {
+int List::Count() const {
 	Item* item;
 	int count = 0;
 		for (item = this->head; item != nullptr; item = item->GetNext()) {
