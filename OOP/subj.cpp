@@ -5,7 +5,7 @@
 #include <iomanip>
 
 // Реализация Base
-Base::Base(CarsType t) : type(t) {
+Base::Base(CarsType t){
     Capacity = 0;
     GosNumber = '\0';
     Owner = '\0';
@@ -13,45 +13,72 @@ Base::Base(CarsType t) : type(t) {
     Model = '\0';
     Color = '\0';
 }
-void Base::Input() {
-    switch (this->type) {
-    case CarsType::LEGK:
-        ((Legk*)this)->Input();
-        break;
-    case CarsType::MICROBUS:
-        ((Microbus*)this)->Input();
-        break;
-    case CarsType::BUS:
-        ((Bus*)this)->Input();
-        break;
-    case CarsType::GRUZ:
-        ((Gruz*)this)->Input();
-        break;
-    case CarsType::SPEC:
-        ((Spec*)this)->Input();
-        break;
-    }
+Base* Base::clone() {
+    return nullptr;
 }
-void Base::Print() {
-    switch (this->type) {
-    case CarsType::LEGK:
-        ((Legk*)this)->Print();
-        break;
-    case CarsType::MICROBUS:
-        ((Microbus*)this)->Print();
-        break;
-    case CarsType::BUS:
-        ((Bus*)this)->Print();
-        break;
-    case CarsType::GRUZ:
-        ((Gruz*)this)->Print();
-        break;
-    case CarsType::SPEC:
-        ((Spec*)this)->Print();
-        break;
-    }
+Legk* Legk::clone()  {
+    Legk* newObj = new Legk();
+    // Просто присваиваем - std::string сам скопируется
+    newObj->GosNumber = this->GosNumber;
+    newObj->Owner = this->Owner;
+    newObj->Brand = this->Brand;
+    newObj->Model = this->Model;
+    newObj->Color = this->Color;
+    newObj->Capacity = this->Capacity;
+    newObj->KuzovType = this->KuzovType;
+    newObj->MotorType = this->MotorType;
+    newObj->DriveType = this->DriveType;
+    return newObj;
 }
 
+Microbus* Microbus::clone()  {
+    Microbus* newObj = new Microbus();
+    newObj->GosNumber = this->GosNumber;
+    newObj->Owner = this->Owner;
+    newObj->Brand = this->Brand;
+    newObj->Model = this->Model;
+    newObj->Color = this->Color;
+    newObj->Capacity = this->Capacity;
+    newObj->MotorType = this->MotorType;
+    return newObj;
+}
+Bus* Bus::clone() {
+    Bus* newObj = new Bus();
+    newObj->GosNumber = this->GosNumber;
+    newObj->Owner = this->Owner;
+    newObj->Brand = this->Brand;
+    newObj->Model = this->Model;
+    newObj->Color = this->Color;
+    newObj->Capacity = this->Capacity;
+    newObj->MotorType = this->MotorType;
+    newObj->LoadCapacity = this->LoadCapacity;
+    return newObj;
+}
+
+Gruz* Gruz::clone() {
+    Gruz* newObj = new Gruz();
+    newObj->GosNumber = this->GosNumber;
+    newObj->Owner = this->Owner;
+    newObj->Brand = this->Brand;
+    newObj->Model = this->Model;
+    newObj->Color = this->Color;
+    newObj->Capacity = this->Capacity;
+    newObj->MotorType = this->MotorType;
+    newObj->LoadCapacity = this->LoadCapacity;
+    return newObj;
+}
+
+Spec* Spec::clone() {
+    Spec* newObj = new Spec();
+    newObj->GosNumber = this->GosNumber;
+    newObj->Owner = this->Owner;
+    newObj->Brand = this->Brand;
+    newObj->Model = this->Model;
+    newObj->Color = this->Color;
+    newObj->Capacity = this->Capacity;
+    newObj->Description = this->Description;
+    return newObj;
+}
 // Реализация Legk
 Legk::Legk() : Base(LEGK) {
     Capacity = 4;
@@ -289,11 +316,14 @@ SubjList* SubjList::FindByOwner(const std::string owner) {
 
     for (Base* p = (Base*)GetHead(); p != nullptr; p = (Base*)p->GetNext()) {
         if (p->GetOwner() == owner) {
-            result->Add((Item*)p);
+            Base* newObj = p->clone();
+            if (newObj) {
+                result->Add((Item*)newObj);
+            }
         }
-    }
 
-    return result;
+        return result;
+    }
 }
 
 SubjList* SubjList::FindByColor(const std::string color) {
@@ -301,11 +331,14 @@ SubjList* SubjList::FindByColor(const std::string color) {
 
     for (Base* p = (Base*)GetHead(); p != nullptr; p = (Base*)p->GetNext()) {
         if (p->GetColor() == color) {
-            result->Add((Item*)p);
+            Base* newObj = p->clone();
+            if (newObj) {
+                result->Add((Item*)newObj);
+            }
         }
-    }
 
-    return result;
+        return result;
+    }
 }
 
 void SubjList::SortByCapacity(int reverse) {

@@ -6,9 +6,9 @@ Item::Item() {
 Item::Item(List* list):Item() {
 	this->list = list;
 };
-Item::~Item() {
-	list->Remove(list->GetIndex(this));
-};
+//Item::~Item() {
+//	list->Remove(list->GetIndex(this));
+//};
 Item* Item::GetNext() {
 	return this->next;
 };
@@ -62,7 +62,7 @@ void List::Delete(const int number) {
 	if (number >= 0) {
 		delItem = Remove(number);
 		if (delItem != nullptr) {
-			free(delItem);
+			delete delItem;
 		}
 	}
 }

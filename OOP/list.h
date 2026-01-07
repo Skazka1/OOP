@@ -9,7 +9,7 @@ private:
 	Item* next;
 	List* list;
 public:
-	~Item();
+	virtual ~Item() {};
 	Item();
 	Item(List*);
 	Item* GetPrev();

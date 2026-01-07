@@ -13,7 +13,6 @@ enum CarsType {
 // Базовый класс для всех автомобилей
 class Base : public Item {
 protected:
-    CarsType type;
     std::string GosNumber;
     std::string Owner;
     std::string Brand;
@@ -24,16 +23,16 @@ protected:
 public:
     Base(CarsType t);
     ~Base() {};
-
-    void Print();
-    void Input();
+    virtual Base* clone();
+    virtual void Print() {};
+    virtual void Input() {};
 
     int GetCapacity() const { return Capacity; }
     std::string GetOwner() const { return Owner; }
     std::string GetColor() const { return Color; }
     std::string GetNumber() const { return GosNumber; }
 
-    CarsType GetType() const { return type; }
+    virtual CarsType GetType() const = 0;
 };
 
 
@@ -44,9 +43,11 @@ private:
     std::string DriveType;
 
 public:
+    Legk* clone() override ;
     Legk();
-    void Print();
-    void Input();
+    void Print() override;
+    void Input() override;
+    CarsType GetType() const override { return CarsType::LEGK; };
 };
 
 class Microbus : public Base {
@@ -54,9 +55,11 @@ private:
     std::string MotorType;
 
 public:
+    Microbus* clone() override;
     Microbus();
-    void Print();
-    void Input();
+    void Print() override;
+    void Input() override;
+    CarsType GetType() const override { return CarsType::MICROBUS; };
 };
 
 class Bus : public Base {
@@ -65,9 +68,11 @@ private:
     float LoadCapacity;
 
 public:
+    Bus* clone() override;
     Bus();
-    void Print();
-    void Input();
+    void Print() override;
+    void Input() override;
+    CarsType GetType() const override { return CarsType::BUS; };
 };
 
 class Gruz : public Base {
@@ -76,9 +81,11 @@ private:
     float LoadCapacity;
 
 public:
+    Gruz* clone() override;
     Gruz();
-    void Print();
-    void Input();
+    void Print() override;
+    void Input() override;
+    CarsType GetType() const override { return CarsType::GRUZ; };
 };
 
 class Spec : public Base {
@@ -86,9 +93,11 @@ private:
     std::string Description;
 
 public:
+    Spec* clone() override;
     Spec();
-    void Print();
-    void Input();
+    void Print() override;
+    void Input() override;
+    CarsType GetType() const override { return CarsType::SPEC; };
 };
 
 class SubjList : public List {
