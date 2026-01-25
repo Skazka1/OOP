@@ -1,5 +1,3 @@
-#include "stdio.h"
-#include "stdlib.h"
 #include "list.h"
 void Add(struct List* list, struct Item* newElement) {
 	if (list != NULL && newElement != NULL) {
@@ -29,7 +27,7 @@ void Delete(struct List* list, const int number) {
 }
 
 struct Item* GetItem(const struct List* list, const int number) {
-	struct Item* currItem;
+	struct Item* currItem = NULL;
 	int count = 0;
 	if (list != NULL && number >= 0) {
 		for (currItem = list->head; currItem != NULL; currItem = currItem->next) {
@@ -37,8 +35,8 @@ struct Item* GetItem(const struct List* list, const int number) {
 				break;
 			count++;
 		}
-		return currItem;
 	}
+	return currItem;
 }
 
 struct Item* Remove(struct List* list, const int number) {
@@ -69,6 +67,7 @@ struct Item* Remove(struct List* list, const int number) {
 		}
 		return item;
 	}
+	return NULL;
 }
 void Insert(struct List* list, struct Item* newItem, const int number) {
 	struct Item* item;
