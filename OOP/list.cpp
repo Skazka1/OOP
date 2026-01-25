@@ -68,7 +68,7 @@ void List::Delete(const int number) {
 }
 
 Item* List::GetItem(const int number) {
-	Item* currItem;
+	Item* currItem = NULL;
 	int count = 0;
 	if (number >= 0) {
 		for (currItem = this->head; currItem != nullptr; currItem = currItem->GetNext()) {
@@ -76,12 +76,12 @@ Item* List::GetItem(const int number) {
 				break;
 			count++;
 		}
-		return currItem;
 	}
+	return currItem;
 }
 
 Item* List::Remove(const int number) {
-	Item* item;
+	Item* item = NULL;
 	if (number >= 0) {
 		item = GetItem(number);
 		if (item != nullptr) {
@@ -106,8 +106,8 @@ Item* List::Remove(const int number) {
 				item->SetNext(nullptr);
 			}
 		}
-		return item;
 	}
+	return item;
 }
 void List::Insert(Item* newItem, const int number) {
 	Item* item;

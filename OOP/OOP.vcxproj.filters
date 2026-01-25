@@ -21,7 +21,11 @@
     <ClCompile Include="list.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+<<<<<<< Updated upstream
     <ClCompile Include="subj.cpp">
+=======
+    <ClCompile Include="subj.c">
+>>>>>>> Stashed changes
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
