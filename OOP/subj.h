@@ -12,7 +12,6 @@ enum CarsType {
 };
 class Base : public Item {
 protected:
-    CarsType type;
     std::string GosNumber;
     std::string Owner;
     std::string Brand;
@@ -20,18 +19,18 @@ protected:
     std::string Color;
 
 public:
-    Base(CarsType t);
-    ~Base() {};
+    Base();
+    virtual ~Base() {};
+    virtual Base* clone() = 0;
+    virtual void Print() = 0;
+    virtual void Input() = 0;
 
-    void Print();
-    void Input();
-
-    const int GetCapacity();
+    virtual const int GetCapacity() const = 0;
     std::string GetOwner() const { return Owner; }
     std::string GetColor() const { return Color; }
     std::string GetNumber() const { return GosNumber; }
 
-    CarsType GetType() const { return type; }
+    virtual const CarsType GetType() const = 0;
 };
 
 class SubjList : public List {

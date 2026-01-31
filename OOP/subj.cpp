@@ -4,6 +4,7 @@
 #include <string>
 #include <iomanip>
 
+
 class Car : public Base {
 private:
     std::string KuzovType;
@@ -11,45 +12,55 @@ private:
     std::string DriveType;
 
 public:
+    Car* clone() override;
     Car();
-    void Print();
-    void Input();
+    void Print() override;
+    void Input() override;
+    const int GetCapacity() const override { return 5; };
+    const CarsType GetType() const override { return CAR; };
 };
 
 class Microbus : public Base {
 private:
-    int Capacity;
+    int Capacity = 0;
     std::string MotorType;
 
 public:
-    int GetCapacity() const { return Capacity; }
+    Microbus* clone() override;
     Microbus();
-    void Print();
-    void Input();
+    void Print() override;
+    void Input() override;
+    const int GetCapacity() const override { return Capacity; };
+    const CarsType GetType() const override { return MICROBUS; };
 };
 
 class Bus : public Base {
 private:
-    int Capacity;
+    int Capacity = 0;
     std::string MotorType;
-    float LoadCapacity;
+    float LoadCapacity = 0;
 
 public:
-    int GetCapacity() const { return Capacity; }
+    Bus* clone() override;
     Bus();
-    void Print();
-    void Input();
+    void Print() override;
+    void Input() override;
+    const int GetCapacity() const override { return Capacity; };
+    const CarsType GetType() const override { return BUS; };
 };
 
 class Gruz : public Base {
 private:
     std::string MotorType;
-    float LoadCapacity;
+    float LoadCapacity = 0;
 
 public:
+    Gruz* clone() override;
     Gruz();
-    void Print();
-    void Input();
+    void Print() override;
+    void Input() override;
+    const int GetCapacity() const override { return 2; };
+    const CarsType GetType() const override { return GRUZ; };
 };
 
 class Spec : public Base {
@@ -57,12 +68,73 @@ private:
     std::string Description;
 
 public:
+    Spec* clone() override;
     Spec();
-    void Print();
-    void Input();
+    void Print() override;
+    void Input() override;
+    const int GetCapacity() const override { return 1; };
+    const CarsType GetType() const override { return SPEC; };
 };
 
-Base::Base(CarsType t) : type(t) {
+Car* Car::clone() {
+    Car* newObj = new Car();
+    newObj->GosNumber = this->GosNumber;
+    newObj->Owner = this->Owner;
+    newObj->Brand = this->Brand;
+    newObj->Model = this->Model;
+    newObj->Color = this->Color;
+    newObj->KuzovType = this->KuzovType;
+    newObj->MotorType = this->MotorType;
+    newObj->DriveType = this->DriveType;
+    return newObj;
+}
+Microbus* Microbus::clone() {
+    Microbus* newObj = new Microbus();
+    newObj->GosNumber = this->GosNumber;
+    newObj->Owner = this->Owner;
+    newObj->Brand = this->Brand;
+    newObj->Model = this->Model;
+    newObj->Color = this->Color;
+    newObj->Capacity = this->Capacity;
+    newObj->MotorType = this->MotorType;
+    return newObj;
+}
+Bus* Bus::clone() {
+    Bus* newObj = new Bus();
+    newObj->GosNumber = this->GosNumber;
+    newObj->Owner = this->Owner;
+    newObj->Brand = this->Brand;
+    newObj->Model = this->Model;
+    newObj->Color = this->Color;
+    newObj->Capacity = this->Capacity;
+    newObj->MotorType = this->MotorType;
+    newObj->LoadCapacity = this->LoadCapacity;
+    return newObj;
+}
+
+Gruz* Gruz::clone() {
+    Gruz* newObj = new Gruz();
+    newObj->GosNumber = this->GosNumber;
+    newObj->Owner = this->Owner;
+    newObj->Brand = this->Brand;
+    newObj->Model = this->Model;
+    newObj->Color = this->Color;
+    newObj->MotorType = this->MotorType;
+    newObj->LoadCapacity = this->LoadCapacity;
+    return newObj;
+}
+
+Spec* Spec::clone() {
+    Spec* newObj = new Spec();
+    newObj->GosNumber = this->GosNumber;
+    newObj->Owner = this->Owner;
+    newObj->Brand = this->Brand;
+    newObj->Model = this->Model;
+    newObj->Color = this->Color;
+    newObj->Description = this->Description;
+    return newObj;
+}
+Base::Base(){
     GosNumber = "";
     Owner = "";
     Brand = "";
@@ -70,47 +142,7 @@ Base::Base(CarsType t) : type(t) {
     Color = "";
 }
 
-void Base::Input() {
-    switch (this->type) {
-    case CarsType::CAR:
-        ((Car*)this)->Input();
-        break;
-    case CarsType::MICROBUS:
-        ((Microbus*)this)->Input();
-        break;
-    case CarsType::BUS:
-        ((Bus*)this)->Input();
-        break;
-    case CarsType::GRUZ:
-        ((Gruz*)this)->Input();
-        break;
-    case CarsType::SPEC:
-        ((Spec*)this)->Input();
-        break;
-    }
-}
-
-void Base::Print() {
-    switch (this->type) {
-    case CarsType::CAR:
-        ((Car*)this)->Print();
-        break;
-    case CarsType::MICROBUS:
-        ((Microbus*)this)->Print();
-        break;
-    case CarsType::BUS:
-        ((Bus*)this)->Print();
-        break;
-    case CarsType::GRUZ:
-        ((Gruz*)this)->Print();
-        break;
-    case CarsType::SPEC:
-        ((Spec*)this)->Print();
-        break;
-    }
-}
-
-Car::Car() : Base(CAR) {
+Car::Car() : Base() {
     KuzovType = "";
     MotorType = "";
     DriveType = "";
@@ -123,7 +155,7 @@ void Car::Print() {
     std::cout << "  Марка: " << Brand << std::endl;
     std::cout << "  Модель: " << Model << std::endl;
     std::cout << "  Цвет: " << Color << std::endl;
-    std::cout << "  Количество мест: " << ((Base*)this)->GetCapacity() << std::endl;
+    std::cout << "  Количество мест: " << GetCapacity() << std::endl;
     std::cout << "  Тип кузова: " << KuzovType << std::endl;
     std::cout << "  Тип двигателя: " << MotorType << std::endl;
     std::cout << "  Привод: " << DriveType << std::endl;
@@ -150,7 +182,7 @@ void Car::Input() {
 }
 
 // Реализация Microbus
-Microbus::Microbus() : Base(MICROBUS) {
+Microbus::Microbus() : Base() {
     MotorType = "";
 }
 
@@ -184,7 +216,7 @@ void Microbus::Input() {
 }
 
 // Реализация Bus
-Bus::Bus() : Base(BUS) {
+Bus::Bus() : Base() {
     MotorType = "";
     LoadCapacity = 0.0f;
 }
@@ -222,7 +254,7 @@ void Bus::Input() {
 }
 
 // Реализация Gruz
-Gruz::Gruz() : Base(GRUZ) {
+Gruz::Gruz() : Base() {
     MotorType = "";
     LoadCapacity = 0.0f;
 }
@@ -234,7 +266,7 @@ void Gruz::Print() {
     std::cout << "  Марка: " << Brand << std::endl;
     std::cout << "  Модель: " << Model << std::endl;
     std::cout << "  Цвет: " << Color << std::endl;
-    std::cout << "  Количество мест: " << ((Base*)this)->GetCapacity() << std::endl;
+    std::cout << "  Количество мест: " << GetCapacity() << std::endl;
     std::cout << "  Тип двигателя: " << MotorType << std::endl;
     std::cout << "  Грузоподъемность: " << std::fixed << std::setprecision(2) << LoadCapacity << " т" << std::endl;
     std::cout << std::endl;
@@ -258,7 +290,7 @@ void Gruz::Input() {
 }
 
 // Реализация Spec
-Spec::Spec() : Base(SPEC) {
+Spec::Spec() : Base() {
     Description = "";
 }
 
@@ -269,7 +301,7 @@ void Spec::Print() {
     std::cout << "  Марка: " << Brand << std::endl;
     std::cout << "  Модель: " << Model << std::endl;
     std::cout << "  Цвет: " << Color << std::endl;
-    std::cout << "  Количество мест: " << ((Base*)this)->GetCapacity() << std::endl;
+    std::cout << "  Количество мест: " << GetCapacity() << std::endl;
     std::cout << "  Описание: " << Description << std::endl;
     std::cout << std::endl;
 }
@@ -339,7 +371,8 @@ SubjList* SubjList::FindByOwner(const std::string owner) {
 
     for (Base* p = (Base*)GetHead(); p != nullptr; p = (Base*)p->GetNext()) {
         if (p->GetOwner() == owner) {
-            result->Add((Item*)p);
+            Base* newObj = p->clone();
+            result->Add((Item*)newObj);
         }
     }
 
@@ -351,29 +384,14 @@ SubjList* SubjList::FindByColor(const std::string color) {
 
     for (Base* p = (Base*)GetHead(); p != nullptr; p = (Base*)p->GetNext()) {
         if (p->GetColor() == color) {
-            result->Add((Item*)p);
+            Base* newObj = p->clone();
+            result->Add((Item*)newObj);
         }
     }
 
     return result;
 }
 
-const int Base::GetCapacity() {
-    switch (this->type)
-    {
-    case CAR:
-        return 5;
-    case GRUZ:
-        return 2;
-    case SPEC:
-        return 1;
-    case MICROBUS:
-        return ((Microbus*)this)->GetCapacity();
-    case BUS:
-        return ((Bus*)this)->GetCapacity();
-    }
-    return 0;
-}
 
 void SubjList::SortByCapacity(int reverse) {
     int len = Count();
