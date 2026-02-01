@@ -9,8 +9,8 @@ private:
 	Item* next;
 	List* list;
 public:
-	virtual ~Item();
 	Item();
+	virtual ~Item();
 	Item(List*);
 	Item* GetPrev();
 	Item* GetNext();

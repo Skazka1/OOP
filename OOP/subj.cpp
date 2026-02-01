@@ -369,13 +369,15 @@ Base* SubjList::FindByNumber(const std::string number) {
 SubjList* SubjList::FindByOwner(const std::string owner) {
     SubjList* result = new SubjList();
 
-    for (Base* p = (Base*)GetHead(); p != nullptr; p = (Base*)p->GetNext()) {
-        if (p->GetOwner() == owner) {
-            Base* newObj = p->clone();
-            result->Add((Item*)newObj);
+    int n = Count();
+    for (int i = 0; i < n; i++) {
+        if ((*this)[i] == owner) {
+            Base* newObj = (*this)[i].clone();
+            if (newObj) {
+                result->Add((Item*)newObj);
+            }
         }
     }
-
     return result;
 }
 
@@ -392,26 +394,27 @@ SubjList* SubjList::FindByColor(const std::string color) {
     return result;
 }
 
+bool Base::operator>(const Base& other) const {
+    return this->GetCapacity() > other.GetCapacity();
+}
+bool Base::operator==(const std::string& value) const {
+    return this->Owner == value;
+}
+Base& SubjList::operator[](int index) {
+    Item* item = GetItem(index);
+    if (item == nullptr) {
+        throw std::out_of_range("Index out of range");
+    }
+    return *(Base*)item;
+}
 
-void SubjList::SortByCapacity(int reverse) {
-    int len = Count();
-
-    for (int i = 0; i < len; i++) {
-        for (int j = 0; j < len - 1; j++) {
-            Base* p1 = (Base*)GetItem(j);
-            Base* p2 = (Base*)GetItem(j + 1);
-
-            bool shouldSwap = false;
-            if (reverse) {
-                shouldSwap = p1->GetCapacity() < p2->GetCapacity();
-            }
-            else {
-                shouldSwap = p1->GetCapacity() > p2->GetCapacity();
-            }
-
-            if (shouldSwap) {
+void SubjList::SortByCapacityUsingOperator() {
+    int n = Count();
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if ((*this)[i] > (*this)[j]) {
                 Item* temp = Remove(j);
-                Insert(temp, j + 1);
+                Insert(temp, i);
             }
         }
     }

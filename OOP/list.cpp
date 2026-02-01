@@ -1,6 +1,7 @@
 #include "list.h"
 #include <iostream>
 Item::Item() {
+	this->list = nullptr;
 	this->prev = nullptr;
 	this->next = nullptr;
 };
@@ -83,6 +84,7 @@ Item* List::GetItem(const int number) {
 	}
 	return currItem;
 }
+
 
 Item* List::Remove(const int number) {
 	Item* item = NULL;

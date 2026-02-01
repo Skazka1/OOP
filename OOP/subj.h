@@ -19,6 +19,8 @@ protected:
     std::string Color;
 
 public:
+    virtual bool operator>(const Base& other) const;
+    virtual bool operator==(const std::string& value) const;
     Base();
     virtual ~Base() {};
     virtual Base* clone() = 0;
@@ -41,5 +43,7 @@ public:
     Base* FindByNumber(const std::string number);
     SubjList* FindByOwner(const std::string owner);
     SubjList* FindByColor(const std::string color);
-    void SortByCapacity(int reverse = 0);
+    void SortByCapacityUsingOperator();
+    Base& operator[](int index);
+    const Base& operator[](int index) const;
 };
